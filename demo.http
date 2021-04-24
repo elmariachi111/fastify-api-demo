@@ -1,0 +1,17 @@
+POST http://127.0.0.1:3000/token 
+Content-Type: application/json
+
+{
+  "name": "ADI",
+  "symbol": "ADI",
+  "type": "ERC20",
+  "address": "0x001",
+  "decimals": 18
+}
+
+###
+
+GET http://127.0.0.1:3000/token
+
+###
+GET http://127.0.0.1:3000/token/0x001
