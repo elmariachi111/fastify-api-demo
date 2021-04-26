@@ -35,3 +35,16 @@ Content-Type: application/json
 
 ###
 GET http://127.0.0.1:3000/tx?token=0x001
+
+###
+POST http://127.0.0.1:3000/graphql 
+
+#X-Request-Type: GraphQL
+Accept: application/json
+#Content-Type: application/json
+content-type: multipart/form-data
+{
+  tokens {
+    address
+  }
+}

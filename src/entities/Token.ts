@@ -1,5 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import { Transaction } from "./Transaction";
+import { ObjectType, Field, ID } from "type-graphql";
 
 export enum ETokenType {
   ERC20 = "ERC20",
@@ -8,21 +9,27 @@ export enum ETokenType {
 }
 
 @Entity()
+@ObjectType()
 export class Token {
   
   @PrimaryColumn()
+  @Field(() => ID)
   address: string = "";
 
   @Column()
+  @Field(() => String)
   name: string = "";
   
   @Column()
+  @Field(() => String)
   symbol: string = "";
 
   @Column()
+  @Field(() => String)
   type: ETokenType = ETokenType.ERC20;
 
   @Column()
+  @Field(() => String)
   decimals?: number; 
 
   @OneToMany(type => Transaction, transaction => transaction.token)

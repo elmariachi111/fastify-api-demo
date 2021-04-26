@@ -1,8 +1,10 @@
+import "reflect-metadata";
 import Fastify from 'fastify';
 import SimpleRoutes from './routes/simple';
 import TokenRoutes from './routes/token';
 import TransactionRoutes from './routes/transaction';
 import FooPlugin from './connectors/FooPlugin';
+import GraphqlPlugin from './connectors/GraphqlPlugin';
 import fastifySwagger from 'fastify-swagger';
 import fastifyTypeOrm from 'fastify-typeorm-plugin';
 import ormConfig from '../ormconfig.json'
@@ -40,6 +42,8 @@ fastify.register(TokenRoutes, {
 fastify.register(TransactionRoutes, {
   prefix: "tx"
 })
+
+fastify.register(GraphqlPlugin)
 
 const start = async () => {
   try {
