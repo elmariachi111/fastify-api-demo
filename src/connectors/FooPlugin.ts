@@ -1,19 +1,20 @@
-import { FastifyInstance, FastifyPluginAsync } from "fastify"
+import { FastifyPluginAsync } from "fastify"
 import fastifyPlugin from 'fastify-plugin'
-
-declare module 'fastify' {
-  interface FastifyInstance {
-    utility: {
-      message: string
-    }
-  }
-}
 
 export interface FooPluginOptions {
   mood: 'happy' | 'sad' | 'undecided'
 }
 
-const fooPlugin: FastifyPluginAsync<FooPluginOptions> = async (fastify: FastifyInstance, options: FooPluginOptions) => {
+declare module 'fastify' {
+  //@ts-ignore
+  interface FastifyInstance {
+     utility: {
+      message: string
+    }
+  }
+}
+
+const fooPlugin: FastifyPluginAsync<FooPluginOptions> = async (fastify, options: FooPluginOptions) => {
   fastify.decorate('utility', {
       message: options.mood
     }

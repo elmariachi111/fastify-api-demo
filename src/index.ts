@@ -1,12 +1,17 @@
 import Fastify from 'fastify';
 import SimpleRoutes from './routes/simple';
 import TokenRoutes from './routes/token';
+import TransactionRoutes from './routes/transaction';
 import FooPlugin from './connectors/FooPlugin';
 import fastifySwagger from 'fastify-swagger';
+import fastifyTypeOrm from 'fastify-typeorm-plugin';
+import ormConfig from '../ormconfig.json'
 
 const fastify = Fastify({
   logger: true
 })
+
+fastify.register(fastifyTypeOrm, ormConfig);
 
 fastify.register(fastifySwagger, {
   routePrefix: '/docs',
@@ -31,6 +36,10 @@ fastify.register(SimpleRoutes);
 fastify.register(TokenRoutes, {
   prefix: "token"
 });
+
+fastify.register(TransactionRoutes, {
+  prefix: "tx"
+})
 
 const start = async () => {
   try {

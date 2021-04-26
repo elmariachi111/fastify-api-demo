@@ -1,13 +1,9 @@
-import {FastifyInstance} from 'fastify'
-import { Static, Type } from '@sinclair/typebox'
+import { Static, Type } from '@sinclair/typebox';
+import { FastifyInstance } from 'fastify';
+import { ETokenType, Token } from '../entities/Token';
 
-enum ETokenType {
-  ERC20 = "ERC20",
-  ERC721 = "ERC721",
-  ERC1155 = "ERC1155"
-}
 
-const Token = Type.Object({
+const TokenType = Type.Object({
   address: Type.String(),
   name: Type.String(),
   symbol: Type.String(),
@@ -15,49 +11,43 @@ const Token = Type.Object({
   decimals: Type.Optional(Type.Number({maximum: 18})),
 });
 
-type TokenType = Static<typeof Token>;
-
-const tokens: Record<string, TokenType> = {};
+type STokenType = Static<typeof TokenType>;
 
 async function routes (fastify: FastifyInstance) {
   
-  fastify.get('/', {
-    schema: {
-      response: {
-        200: Type.Array(Token)
-      }
-    }
-  }, async (request, reply) => {
-    return Object.values(tokens);
+  fastify.get('/', async (request, reply) => {
+    const tokens = fastify.orm.getRepository(Token).find()
+    return tokens;
   })
 
   fastify.get<{
-    Params: {symbol: string}
-  }>('/:symbol', {
+    Params: {address: string}
+  }>('/:address', {
     schema: {
       params: {
-        symbol: {
+        address: {
           Type: String
         }
       }
     }
   },
   async (request, reply) => {
-    const {symbol} = request.params;
-    return tokens[symbol];
+    const {address} = request.params;
+    return fastify.orm.getRepository(Token).findOne(address)
   });
 
   fastify.post<{ 
-    Body: TokenType, Response: TokenType
+    Body: STokenType, Response: STokenType
   }>(
     '/', {
       schema: {
-        body: Token, response: {
-          200: Token,
+        body: TokenType, 
+        response: {
+          200: TokenType,
         }
       }
     }, async (request, reply) => {
-      tokens[request.body.address] = request.body
+      fastify.orm.getRepository(Token).save(request.body)
       return request.body
     }
   );

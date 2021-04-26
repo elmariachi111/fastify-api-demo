@@ -1,3 +1,7 @@
+GET http://127.0.0.1:3000
+
+###
+
 POST http://127.0.0.1:3000/token 
 Content-Type: application/json
 
@@ -15,3 +19,19 @@ GET http://127.0.0.1:3000/token
 
 ###
 GET http://127.0.0.1:3000/token/0x001
+
+###
+POST http://127.0.0.1:3000/tx 
+Content-Type: application/json
+
+{
+  "hash": "0xa3c3e3",
+  "dateTime": "2016-05-06T12:45:33",
+  "token": "0x001",
+  "from": "0xbbaa",
+  "to": "0xccdd",
+  "amount": "42"
+}
+
+###
+GET http://127.0.0.1:3000/tx?token=0x001
