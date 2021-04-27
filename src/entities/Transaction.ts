@@ -2,6 +2,7 @@ import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 import { Token } from "./Token";
 import {Type} from 'class-transformer';
 import { Field, ID, ObjectType } from "type-graphql";
+import { Lazy } from "../helpers";
 
 @Entity()
 @ObjectType()
@@ -27,9 +28,9 @@ export class Transaction {
   @Field(() => String)
   amount: string = "";
 
-  @Field(() => Token, {nullable: true})
-  @ManyToOne(type => Token, token => token.transactions)
-  token: Token | undefined;
+  @Field(type => Token)
+  @ManyToOne(type => Token, token => token.transactions, { lazy: true })
+  token: Lazy<Token> | undefined;
   
 }
 

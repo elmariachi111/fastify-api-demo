@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import { Transaction } from "./Transaction";
-import { ObjectType, Field, ID } from "type-graphql";
+import { ObjectType, Field, ID, FieldResolver } from "type-graphql";
+import { Lazy } from "../helpers";
 
 export enum ETokenType {
   ERC20 = "ERC20",
@@ -32,9 +33,9 @@ export class Token {
   @Field(() => String)
   decimals?: number; 
 
-  @Field(() => [Transaction], {nullable: true})
-  @OneToMany(type => Transaction, transaction => transaction.token)
-  transactions: Transaction[] | undefined;
+  @Field(type => [Transaction])
+  @OneToMany(type => Transaction, transaction => transaction.token, {lazy: true})
+  transactions: Lazy<Transaction[]> | undefined;
 }
 
 // const Token = Type.Object({
