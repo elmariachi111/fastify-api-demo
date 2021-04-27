@@ -2,16 +2,16 @@ import { Query, Resolver } from "type-graphql";
 import { Service } from "typedi";
 import { EntityManager } from "typeorm";
 import { InjectManager } from "typeorm-typedi-extensions";
-import { Token } from '../entities/Token';
+import { Transaction } from "../entities/Transaction";
 
-@Resolver(of => Token)
+@Resolver(of => Transaction)
 @Service()
-export class TokenResolver {
+export class TransactionResolver {
 
   constructor(@InjectManager() private orm: EntityManager) {}
 
-  @Query(() => [Token])
-  async tokens(): Promise<Token[]> {
-    return await this.orm.getRepository(Token).find();
+  @Query(() => [Transaction])
+  async transactions(): Promise<Transaction[]> {
+    return await this.orm.getRepository(Transaction).find();
   }
 }

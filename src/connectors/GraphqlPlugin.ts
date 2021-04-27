@@ -4,6 +4,8 @@ import { FastifyPluginAsync } from "fastify";
 import fastifyPlugin from 'fastify-plugin';
 import { buildSchema } from 'type-graphql';
 import { TokenResolver } from '../resolvers';
+import { Container } from 'typeorm-typedi-extensions';
+import { TransactionResolver } from '../resolvers/TransactionResolver';
 
 export interface GraphqlPluginOptions {
  
@@ -19,18 +21,11 @@ export interface GraphqlPluginOptions {
 // }
 
 const graphqlPlugin: FastifyPluginAsync<GraphqlPluginOptions> = async (fastify, options: GraphqlPluginOptions) => {
-  const resolvers = [TokenResolver] as const
+  const resolvers = [TokenResolver, TransactionResolver] as const
 
-  //https://github.com/MichalLytek/type-graphql/issues/460
-  //vs https://typegraphql.com/docs/dependency-injection.html & https://www.npmjs.com/package/typedi
-  const MyContainer = {
-    get(ResolverClass: typeof TokenResolver) {
-      return new ResolverClass(fastify.orm)
-    }
-  }
   const schema = await buildSchema({
     resolvers,
-    container: MyContainer
+    container: Container
   })
   const apollo = new ApolloServer({
     schema,

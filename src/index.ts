@@ -8,11 +8,13 @@ import GraphqlPlugin from './connectors/GraphqlPlugin';
 import fastifySwagger from 'fastify-swagger';
 import fastifyTypeOrm from 'fastify-typeorm-plugin';
 import ormConfig from '../ormconfig.json'
+import { useContainer } from 'typeorm';
+import { Container } from 'typeorm-typedi-extensions';
 
 const fastify = Fastify({
   logger: true
 })
-
+useContainer(Container)
 fastify.register(fastifyTypeOrm, ormConfig);
 
 fastify.register(fastifySwagger, {

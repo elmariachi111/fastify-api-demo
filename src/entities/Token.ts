@@ -32,6 +32,7 @@ export class Token {
   @Field(() => String)
   decimals?: number; 
 
+  @Field(() => [Transaction], {nullable: true})
   @OneToMany(type => Transaction, transaction => transaction.token)
   transactions: Transaction[] | undefined;
 }
