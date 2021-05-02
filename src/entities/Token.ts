@@ -30,18 +30,10 @@ export class Token {
   type: ETokenType = ETokenType.ERC20;
 
   @Column()
-  @Field(() => String)
+  @Field(() => Number)
   decimals?: number; 
 
   @Field(type => [Transaction])
   @OneToMany(type => Transaction, transaction => transaction.token, {lazy: true})
   transactions: Lazy<Transaction[]> | undefined;
 }
-
-// const Token = Type.Object({
-//   address: Type.String(),
-//   name: Type.String(),
-//   symbol: Type.String(),
-//   type: Type.Enum(ETokenType),
-//   decimals: Type.Optional(Type.Number({maximum: 18})),
-// });

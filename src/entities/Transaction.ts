@@ -33,11 +33,3 @@ export class Transaction {
   token: Lazy<Token> | undefined;
   
 }
-
-// const Token = Type.Object({
-//   address: Type.String(),
-//   name: Type.String(),
-//   symbol: Type.String(),
-//   type: Type.Enum(ETokenType),
-//   decimals: Type.Optional(Type.Number({maximum: 18})),
-// });

@@ -38,13 +38,9 @@ GET http://127.0.0.1:3000/tx?token=0x001
 
 ###
 POST http://127.0.0.1:3000/graphql 
+Content-Type: application/json
 
-#X-Request-Type: GraphQL
-Accept: application/json
-#Content-Type: application/json
-content-type: multipart/form-data
 {
-  tokens {
-    address
-  }
+  "query": "{\n  tokens {\n    address\n    name\n    transactions {\n      hash\n      from\n      to\n      amount\n    }\n  }\n}\n",
+  "variables": {}
 }

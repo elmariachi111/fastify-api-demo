@@ -1,6 +1,6 @@
 {
   "type": "sqlite",
-  "database": "eth.sqlite",
+  "database": "data/eth.sqlite",
   "synchronize": true,
   "logging": false,
   "entities": [
@@ -12,9 +12,10 @@
   "migrations": [
     "src/migrations/*.ts"
   ],
+  "migrationsTableName": "migrations",
   "cli": {
     "entitiesDir": "src/entities",
-    "migrationsDir": "src/migrations",
+    "migrationsDir": "./src/migrations",
     "subscribersDir": "src/subscribers"
   }
 }
